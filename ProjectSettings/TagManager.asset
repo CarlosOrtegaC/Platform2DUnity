@@ -7,6 +7,9 @@ TagManager:
   - PlayerHitBox
   - DeteccionPlayer
   - Moneda
+  - fire
+  - Enemigo
+  - Suelo
   layers:
   - Default
   - TransparentFX

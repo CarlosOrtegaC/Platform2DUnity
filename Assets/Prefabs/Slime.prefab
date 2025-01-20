@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5472619234491951988}
   m_Layer: 6
   m_Name: Slime
-  m_TagString: Untagged
+  m_TagString: Enemigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -71,6 +71,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vidas: 60
   sliderPlayer: {fileID: 6188276751814586301}
+  muerte:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!212 &7062027433008311222
 SpriteRenderer:
   m_ObjectHideFlags: 0

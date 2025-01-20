@@ -40,11 +40,12 @@ public class Murcielago : MonoBehaviour
             //Has llegado a destino
             DefinirNuevoDestino();
         }
-        PerseguirJugador();
+        if (positionPlayer) 
+            PerseguirJugador();        
     }
     IEnumerator Persecucion()
     {
-        while (playerDetectado)
+        while (playerDetectado && positionPlayer)
         {               
             transform.position = Vector3.MoveTowards(transform.position, positionPlayer.position, velocidadPersecucion * Time.deltaTime);
             yield return null;
@@ -100,7 +101,7 @@ public class Murcielago : MonoBehaviour
         if (elOtro.gameObject.CompareTag("DeteccionPlayer"))
         {
             //Debug.Log("Sa Escapao!!");
-            if(!boss)
+            if(!boss || !positionPlayer)
             {
                 playerDetectado = false;
             }     

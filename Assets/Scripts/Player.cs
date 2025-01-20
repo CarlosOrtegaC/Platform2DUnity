@@ -24,10 +24,11 @@ public class Player : MonoBehaviour
 
     [Header ("Sistema de Combate")]
     [SerializeField] private Transform puntoAtaque;
+    [SerializeField] private Transform puntoCast;
     [SerializeField] private float radioAtaque;
     [SerializeField] private float danoAtaque;
     [SerializeField] private LayerMask queEsDanable;
-
+    [SerializeField] private GameObject bolaFire;
     private Animator anim;
 
     // Start is called before the first frame update
@@ -59,6 +60,11 @@ public class Player : MonoBehaviour
         {
             anim.SetTrigger("attack");
         }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            anim.SetTrigger("cast");
+        }
     }
 
     //Se ejecuta desde evento de animación.
@@ -71,6 +77,11 @@ public class Player : MonoBehaviour
             SistemaVidas sistemaVidas = item.gameObject.GetComponent<SistemaVidas>();
             sistemaVidas.RecibirDano(danoAtaque);
         }
+    }
+
+    private void Cast()
+    {
+        GameObject.Instantiate(bolaFire, puntoCast.position, transform.rotation);
     }
 
     private void Saltar()
