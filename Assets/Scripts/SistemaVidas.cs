@@ -23,6 +23,15 @@ public class SistemaVidas : MonoBehaviour
             Destroy(this.gameObject); 
         }
     }
+    public void CurarVida(float cantidad)
+    {
+        vidas += cantidad;
+        vidas = Mathf.Clamp(vidas, 0, 100);
+        sliderPlayer.value = vidas;
+    }
 
-
+    public float GetVidas()
+    {
+        return vidas;
+    }
 }

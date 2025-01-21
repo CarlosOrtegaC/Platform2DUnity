@@ -10,6 +10,9 @@ TagManager:
   - fire
   - Enemigo
   - Suelo
+  - Vida
+  - Key
+  - Muro
   layers:
   - Default
   - TransparentFX

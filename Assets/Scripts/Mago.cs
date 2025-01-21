@@ -9,7 +9,6 @@ public class Mago : MonoBehaviour
     [SerializeField] private float tiempoAtaques;
     [SerializeField] private float danoAtaque;
     [SerializeField] private Transform uiTransform;
-
     private bool playerDetectado = false;
     private Animator anim;
 
@@ -17,7 +16,6 @@ public class Mago : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
-        //StartCoroutine(RutinaAtaque());
     }
 
     // Update is called once per frame

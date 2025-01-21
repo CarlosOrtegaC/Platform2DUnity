@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class BolaFuego : MonoBehaviour
 {
-    private Rigidbody2D rb;
     [SerializeField] private float impulsoDisparo;
+    [SerializeField] private AudioClip sonidoExplosion;
+    private Rigidbody2D rb;
     private Animator anim;
-
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,14 +18,17 @@ public class BolaFuego : MonoBehaviour
         //transfor.right -> Eje X (Rojo)   
         rb.AddForce(transform.right * impulsoDisparo, ForceMode2D.Impulse);
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter2D(Collision2D elOtro)
     {
         if (elOtro.gameObject.layer==8)
         {
-          
-            Debug.Log("Playerdetectado!!!");
+            if (sonidoExplosion != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonidoExplosion, 0.2f);
+            }
             anim.SetBool("explotar", true);
             rb.isKinematic = true;
             rb.velocity = Vector3.zero;

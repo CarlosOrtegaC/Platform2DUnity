@@ -124,6 +124,7 @@ MonoBehaviour:
   tiempoAtaques: 2
   danoAtaque: 20
   uiTransform: {fileID: 0}
+  sonidoLanzamiento: {fileID: 8300000, guid: 2a0e0a6584aff854ab411258f5b462a7, type: 3}
 --- !u!212 &8896886879388158587
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -10,6 +10,8 @@ public class Murcielago : MonoBehaviour
     [SerializeField] private Transform uiTransform;
     [SerializeField] private float danoAtaque;
     [SerializeField] bool boss = false;
+    [SerializeField] private AudioClip sonidoAtaque;
+    private AudioSource audioSource;
     private Vector3 destinoActual;
     private int indiceActual = 0;
     private bool playerDetectado = false;
@@ -22,6 +24,7 @@ public class Murcielago : MonoBehaviour
         destinoActual = waypoints[indiceActual].position;
         StartCoroutine(Patrulla());
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update() //S = V * t
@@ -94,6 +97,10 @@ public class Murcielago : MonoBehaviour
             SistemaVidas sistemaVidas = elOtro.gameObject.GetComponent<SistemaVidas>();
             sistemaVidas.RecibirDano(20);
             anim.SetBool("atacar", true);
+            if (sonidoAtaque != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonidoAtaque, 0.2f);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D elOtro)

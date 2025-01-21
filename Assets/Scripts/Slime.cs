@@ -8,6 +8,8 @@ public class Slime : MonoBehaviour
     [SerializeField] private float velocidadPatrulla;
     [SerializeField] private float danoAtaque;
     [SerializeField] private Transform uiTransform;
+    [SerializeField] private AudioClip sonidoAtaque;
+    private AudioSource audioSource;
     private Vector3 destinoActual;
     private int indiceActual = 0;
     private Animator anim;
@@ -18,6 +20,7 @@ public class Slime : MonoBehaviour
         destinoActual = waypoints[indiceActual].position;
         StartCoroutine(Patrulla());
         anim = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update() //S = V * t
@@ -65,21 +68,26 @@ public class Slime : MonoBehaviour
     {
         if (elOtro.gameObject.CompareTag ("DeteccionPlayer"))
         {
-            Debug.Log("Playerdetectado!!!");
+
             anim.SetBool("atacar", true);
+
         }
         else if(elOtro.gameObject.CompareTag("PlayerHitBox"))
         {
             SistemaVidas sistemaVidas = elOtro.gameObject.GetComponent<SistemaVidas>();
             sistemaVidas.RecibirDano(20);
             anim.SetBool("atacar", true);
+            if (sonidoAtaque != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonidoAtaque, 0.4f);
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D elOtro)
     {
         if (elOtro.gameObject.CompareTag("DeteccionPlayer"))
-        {
-            Debug.Log("Sa Escapao!!");
+        { 
+
             anim.SetBool("atacar", false);
 
         }

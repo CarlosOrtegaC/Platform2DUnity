@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class Player : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float inputH;
     private int score = 0;
+    public int key = 0;
     [SerializeField] private TextMeshProUGUI textoScore;
+    [SerializeField] private TextMeshProUGUI textoKey;
+    [SerializeField] private GameObject panelWin;
     [SerializeField] private AudioClip sonidoMoneda;
+    [SerializeField] private AudioClip sonidoCast;
+    [SerializeField] private AudioClip sonidoCorazon;
+    [SerializeField] private AudioClip sonidoAtaque;
     private AudioSource audioSource;
 
     [Header("Sistema de Movimiento")]
@@ -37,6 +44,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
+        panelWin.SetActive(false);
     }
 
     // Update is called once per frame
@@ -59,11 +67,18 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             anim.SetTrigger("attack");
+            if (sonidoAtaque != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonidoAtaque, 0.2f);
+            }
         }
-
         if(Input.GetMouseButtonDown(1))
         {
             anim.SetTrigger("cast");
+            if (sonidoCast != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonidoCast, 0.3f);
+            }
         }
     }
 
@@ -135,15 +150,54 @@ public class Player : MonoBehaviour
     {
         if (elOtro.gameObject.CompareTag("Moneda"))
         {
-            Destroy(elOtro.gameObject); // Destruye la moneda
+            Destroy(elOtro.gameObject); 
             score++;
-            textoScore.text = "x " + score;
+            textoScore.text = "x " + score + " / 50";
 
-            // Reproduce el sonido solo al recoger la moneda
+            if (score >= 50)
+            {
+                HasGanado();
+            }
+
             if (sonidoMoneda != null)
             {
-                audioSource.PlayOneShot(sonidoMoneda, 0.5f);
+                audioSource.PlayOneShot(sonidoMoneda, 0.2f);
             }
         }
+        if (elOtro.gameObject.CompareTag("Key"))
+        {
+            Destroy(elOtro.gameObject);
+            key++;
+            textoKey.text = "x " + key;
+
+            if (sonidoMoneda != null)
+            {
+                audioSource.PlayOneShot(sonidoMoneda, 0.2f);
+            }
+        }
+        if (elOtro.gameObject.CompareTag("Vida"))
+        {
+            Destroy(elOtro.gameObject);
+            if (sonidoCorazon != null)
+                {
+                    audioSource.PlayOneShot(sonidoCorazon, 0.3f);
+                }
+            SistemaVidas sistemaVidas = GetComponent<SistemaVidas>();
+            if (sistemaVidas != null)
+            {
+                float vidaActual = sistemaVidas.GetVidas();
+
+                if (vidaActual < 100)
+                {
+                    sistemaVidas.CurarVida(100 - vidaActual);
+                    
+                }
+            }
+        }
+    }
+    private void HasGanado()
+    {
+        Time.timeScale = 0; // Detener el juego
+        panelWin.SetActive(true); // Mostrar el mensaje de "YOU WIN"
     }
 }
